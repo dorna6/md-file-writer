@@ -1,2 +1,3 @@
-# md-file-writer
-a python module for writing md files
+# Goals
+
+create a simple way to generate a nice looking md files
