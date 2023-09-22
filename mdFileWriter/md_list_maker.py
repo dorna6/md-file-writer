@@ -1,7 +1,7 @@
 from mdFileWriter.var_util import elementType, Element
 import os
 
-class MDfile():
+class MDfileCreator():
     def __init__(self):
         self.element_list = []
         
@@ -30,8 +30,23 @@ class MDfile():
         icontent = text
         self.element_list.append(Element(itype,icontent))
               
-    def create_file(self,file_name: str ='MarkDownFile'):
+    def create_file(self, folder_path, file_name: str ='MarkDownFile'):
         ''' this method create md file from the element list '''
+
+        # generate text from the element list
+        text_list = self._textGen()
+
+        # create file and open
+        output_file = os.path.join(folder_path, f'{file_name}.md')
+
+        # write to file
+        with open(output_file, 'w') as file:
+            for itext in text_list:
+                file.write('\n')
+                file.write(itext)
+                
+    def _textGen(self):
+        '''this method use to generate a text from the element list'''
         
         # init empty text list
         text_list = []
@@ -65,19 +80,7 @@ class MDfile():
             for itext in itext_list:
                 text_list.append(itext)
             
-
-        # create file and open
-        current_folder = os.path.dirname(os.path.realpath(__file__))
-        project_folder = os.path.dirname(current_folder)
-        output_folder = os.path.join(project_folder, 'output')
-        output_file = os.path.join(output_folder, f'{file_name}.md')
-
-        # write to file
-        with open(output_file, 'w') as file:
-            for itext in text_list:
-                file.write('\n')
-                file.write(itext)
-                
+        return text_list
     
     def _textGen_HEADLINE(self,element:Element):
         ''' this method create a text list of HEADLINE element '''
